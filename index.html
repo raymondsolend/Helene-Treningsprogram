@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="nn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0f15">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Form + Mat">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>12 veker – Form + Mat</title>
+<style>
+:root{--bg:#0a0f15;--card:#151b23;--card2:#202936;--line:#2b3440;--text:#f8fafc;--muted:#b9c2cf;--green:#22c55e}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+body{padding-bottom:80px}.app{max-width:760px;margin:auto;padding:16px}
+.hero{background:#111827;border-radius:24px;padding:22px;margin:8px 0 16px}.hero h1{font-size:29px;margin:0 0 8px}.muted{color:var(--muted)}
+.bar{height:12px;background:#374151;border-radius:99px;overflow:hidden;margin:18px 0 8px}.bar>div{height:100%;width:0;background:var(--green)}.prow{display:flex;justify-content:space-between;font-size:14px}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 0 12px}
+.tab{border:0;border-radius:14px;padding:13px 4px;background:#25303c;color:var(--text);font-weight:800;font-size:13px}.tab.active{background:#f8fafc;color:#111827}
+.panel{display:none}.panel.active{display:block}.card{background:var(--card);border-radius:22px;padding:20px;margin:14px 0}.card h2{font-size:25px;margin:0 0 8px}.card h3{font-size:21px;margin:0 0 12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:var(--card2);border-radius:18px;padding:16px 8px;text-align:center}.stat b{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted)}
+.checkrow{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}.checkrow:first-child{border-top:0}
+input[type=checkbox]{width:29px;height:29px;accent-color:var(--green);flex:0 0 auto;margin-top:2px}.checkrow strong{font-size:18px;display:block}.checkrow small{display:block;color:var(--muted);font-size:14px;line-height:1.4;margin-top:3px}
+ul{margin:10px 0 0 37px;color:var(--muted);font-size:17px;line-height:1.55}li{margin:3px 0}
+.weekhead{display:flex;justify-content:space-between;gap:12px;align-items:center}.pill{background:var(--card2);padding:7px 12px;border-radius:99px;font-weight:800}
+textarea,input[type=date],input[type=number]{width:100%;margin-top:10px;border:1px solid #3a4554;background:#0f141b;color:white;border-radius:13px;padding:12px;font:inherit}
+textarea{min-height:90px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:13px;padding:12px 15px;font-weight:800;background:#f8fafc;color:#111827;margin-top:10px}
+.weightitem,.shoprow{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}.shoprow input{width:24px;height:24px}
+.daytitle{font-size:34px;font-weight:900}.ok{font-size:12px;color:#86efac;margin-top:8px}.note{background:#18202a;border:1px solid #334155}
+@media(max-width:430px){.hero h1{font-size:26px}.tab{font-size:12px;padding:12px 2px}.stat b{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+<h1>12 veker – Styrke + Kondisjon + Mat</h1>
+<div class="muted">155 cm • 65 kg • mål: ca. 61 kg</div>
+<div class="bar"><div id="bar"></div></div>
+<div class="prow"><span id="count"></span><span id="pct"></span></div>
+<div class="ok">✓ Lagrar automatisk på telefonen</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" data-tab="today">I dag</button>
+<button class="tab" data-tab="training">Trening</button>
+<button class="tab" data-tab="food">Mat</button>
+<button class="tab" data-tab="weight">Vekt</button>
+<button class="tab" data-tab="shop">Handle</button>
+</div>
+
+<div id="today" class="panel active"></div>
+<div id="training" class="panel"></div>
+<div id="food" class="panel"></div>
+<div id="weight" class="panel"></div>
+<div id="shop" class="panel"></div>
+</div>
+
+<script>
+const DATA={"weeks": [{"week": 1, "phase": "Grunnlag", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 3×8", "Benkpress 3×8", "Stangroing 3×10", "Rumensk markløft 3×8", "Planke 3×30–45 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "6×2 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×10", "Utfall bakover 3×8 per bein", "Ståande skulderpress med stang 3×8", "Stangroing 3×10", "Planke / beinhev 3 sett"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["35–45 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 2, "phase": "Grunnlag", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 3×8", "Benkpress 3×8", "Stangroing 3×10", "Rumensk markløft 3×8", "Planke 3×30–45 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "6×2 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×10", "Utfall bakover 3×8 per bein", "Ståande skulderpress med stang 3×8", "Stangroing 3×10", "Planke / beinhev 3 sett"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["35–45 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 3, "phase": "Grunnlag", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 3×8", "Benkpress 3×8", "Stangroing 3×10", "Rumensk markløft 3×8", "Planke 3×30–45 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "6×2 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×10", "Utfall bakover 3×8 per bein", "Ståande skulderpress med stang 3×8", "Stangroing 3×10", "Planke / beinhev 3 sett"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["35–45 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 4, "phase": "Grunnlag", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 3×8", "Benkpress 3×8", "Stangroing 3×10", "Rumensk markløft 3×8", "Planke 3×30–45 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "6×2 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×10", "Utfall bakover 3×8 per bein", "Ståande skulderpress med stang 3×8", "Stangroing 3×10", "Planke / beinhev 3 sett"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["35–45 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 5, "phase": "Bygging", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×6", "Benkpress 4×6", "Stangroing 4×8", "Rumensk markløft 3×8", "Planke 3×45–60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "5×3 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6–8", "Stangroing 3×8", "Beinhev / situps 3×12–15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["40–50 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 6, "phase": "Bygging", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×6", "Benkpress 4×6", "Stangroing 4×8", "Rumensk markløft 3×8", "Planke 3×45–60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "5×3 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6–8", "Stangroing 3×8", "Beinhev / situps 3×12–15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["40–50 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 7, "phase": "Bygging", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×6", "Benkpress 4×6", "Stangroing 4×8", "Rumensk markløft 3×8", "Planke 3×45–60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "5×3 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6–8", "Stangroing 3×8", "Beinhev / situps 3×12–15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["40–50 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 8, "phase": "Bygging", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×6", "Benkpress 4×6", "Stangroing 4×8", "Rumensk markløft 3×8", "Planke 3×45–60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "5×3 min raskt / 2 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 3×5", "Benkpress 3×8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6–8", "Stangroing 3×8", "Beinhev / situps 3×12–15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["40–50 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 9, "phase": "Styrke + kondisjon", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×5", "Benkpress 4×5", "Stangroing 4×6–8", "Rumensk markløft 3×6–8", "Planke 3×60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "4×4 min hardt / 3 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 4×4", "Benkpress 3×6–8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6", "Stangroing 3×8", "Beinhev / situps 3×15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["45–60 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 10, "phase": "Styrke + kondisjon", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×5", "Benkpress 4×5", "Stangroing 4×6–8", "Rumensk markløft 3×6–8", "Planke 3×60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "4×4 min hardt / 3 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 4×4", "Benkpress 3×6–8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6", "Stangroing 3×8", "Beinhev / situps 3×15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["45–60 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 11, "phase": "Styrke + kondisjon", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×5", "Benkpress 4×5", "Stangroing 4×6–8", "Rumensk markløft 3×6–8", "Planke 3×60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "4×4 min hardt / 3 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 4×4", "Benkpress 3×6–8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6", "Stangroing 3×8", "Beinhev / situps 3×15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["45–60 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}, {"week": 12, "phase": "Styrke + kondisjon", "sessions": [{"name": "Styrke A", "day": "Måndag", "items": ["Knebøy med stang 4×5", "Benkpress 4×5", "Stangroing 4×6–8", "Rumensk markløft 3×6–8", "Planke 3×60 sek"]}, {"name": "Intervall", "day": "Onsdag", "items": ["10 min roleg oppvarming", "4×4 min hardt / 3 min roleg", "5–10 min roleg nedjogg"]}, {"name": "Styrke B", "day": "Fredag", "items": ["Markløft 4×4", "Benkpress 3×6–8", "Utfall bakover 3×10 per bein", "Ståande skulderpress 3×6", "Stangroing 3×8", "Beinhev / situps 3×15"]}, {"name": "Rolig kondisjon", "day": "Søndag", "items": ["45–60 min roleg jogg eller rask gange", "Snakketempo / lett intensitet"]}]}], "meals": [["Måndag", [["Frukost", "50 g havregryn + 2 dl lettmelk + bær + 1 kokt egg"], ["Mellom", "Skyr eller proteinrik yoghurt + 1 frukt"], ["Lunsj", "3 grove skiver med kalkun/skinke + lettost + grønsaker"], ["Middag", "150 g kyllingfilet + 70 g tørr ris + mykje grønsaker + lett saus"], ["Etter trening", "1 banan + 2 dl melk"], ["Kveldsmat", "150 g cottage cheese + bær"]]], ["Tysdag", [["Frukost", "2 egg + 2 grove skiver + tomat/agurk"], ["Mellom", "Skyr/yoghurt + eple"], ["Lunsj", "Tunfisksalat + 2 grove skiver"], ["Middag", "150 g karbonadedeig + 70 g tørr pasta + tomatsaus + grønsaker"], ["Ettermiddag", "1 frukt + 15–20 g nøtter"], ["Kveldsmat", "2 knekkebrød med cottage cheese eller skinke"]]], ["Onsdag", [["Frukost", "50 g havregryn + melk + banan i skiver"], ["Mellom", "Skyr + bær"], ["Lunsj", "3 grove skiver med egg og skinke"], ["Middag", "150 g kylling + poteter + grønsaker + litt saus"], ["Etter trening", "Banan + yoghurt"], ["Kveldsmat", "2 knekkebrød + cottage cheese"]]], ["Torsdag", [["Frukost", "2 egg + 2 grove skiver + frukt"], ["Mellom", "Yoghurt/Skyr"], ["Lunsj", "Kyllingsalat med 120–150 g kylling + grønsaker + 1 grov brødskive"], ["Middag", "Laks 150 g + poteter + brokkoli/gulrot"], ["Ettermiddag", "Eple + 15–20 g nøtter"], ["Kveldsmat", "Cottage cheese + bær"]]], ["Fredag", [["Frukost", "50 g havregryn + lettmelk + bær + 1 egg"], ["Mellom", "Skyr + frukt"], ["Lunsj", "3 grove skiver med kalkun/skinke + lettost"], ["Middag", "Taco: 150 g karbonadedeig + grønsaker + 2 små tortillas + salsa + litt ost"], ["Etter trening", "Banan + melk"], ["Kveldsmat", "2 knekkebrød med egg/skinke"]]], ["Laurdag", [["Frukost", "Omelett av 2 egg + 2 grove skiver + grønsaker"], ["Mellom", "Yoghurt + frukt"], ["Lunsj", "Wrap med kylling, salat og lett dressing"], ["Middag", "Heimelaga burger av karbonadedeig + ovnsbakte poteter + salat"], ["Ettermiddag", "Frukt + 15–20 g nøtter"], ["Kveldsmat", "Skyr eller cottage cheese"]]], ["Søndag", [["Frukost", "50 g havregryn + melk + banan"], ["Mellom", "Skyr + bær"], ["Lunsj", "3 grove skiver med egg/skinke + grønsaker"], ["Middag", "150 g kylling eller laks + ris/poteter + grønsaker"], ["Etter roleg økt", "Yoghurt + frukt"], ["Kveldsmat", "2 knekkebrød + cottage cheese"]]]], "shopping": [["Havregryn", "1 pose"], ["Lettmelk", "3–4 L"], ["Egg", "18–24 stk"], ["Grove brød", "2 stk"], ["Knekkebrød", "1 pk"], ["Bananar", "7–10 stk"], ["Eple / annan frukt", "7–10 stk"], ["Frosne eller ferske bær", "2–3 pk"], ["Skyr / proteinrik yoghurt", "7–10 stk"], ["Cottage cheese", "3–4 beger"], ["Lettost", "1 pk"], ["Skinke / kalkunpålegg", "2–3 pk"], ["Kyllingfilet", "1,2–1,5 kg"], ["Karbonadedeig", "800 g–1 kg"], ["Laks", "400–600 g"], ["Tunfisk", "2–3 boksar"], ["Ris", "1 pk"], ["Pasta", "1 pk"], ["Poteter", "1,5–2 kg"], ["Små tortillas / wraps", "1–2 pk"], ["Salat / agurk / tomat", "etter behov"], ["Brokkoli / gulrot / wokgrønsaker", "rikelig"], ["Salsa / tomatsaus", "1–2 glas"], ["Lett dressing / saus", "1 flaske"], ["Nøtter", "1 liten pose"]]};
+const DBNAME="form_mat_db", STORE="state", STATEKEY="main";
+let state={start:"2026-09-14",checks:{},notes:{},weights:[],shop:{}};
+
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DBNAME,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function loadState(){try{const db=await openDB();const tx=db.transaction(STORE,"readonly");const rq=tx.objectStore(STORE).get(STATEKEY);return await new Promise(resolve=>{rq.onsuccess=()=>resolve(rq.result||state);rq.onerror=()=>resolve(state)})}catch(e){try{return JSON.parse(localStorage.getItem(STATEKEY))||state}catch(_){return state}}}
+async function save(){try{const db=await openDB();const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).put(state,STATEKEY)}catch(e){localStorage.setItem(STATEKEY,JSON.stringify(state))}progress()}
+
+function tab(n){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===n));document.getElementById(n).classList.add('active');scrollTo(0,0)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+
+function info(){const s=new Date(state.start+"T12:00:00"),n=new Date(),d=Math.floor((new Date(n.getFullYear(),n.getMonth(),n.getDate(),12)-s)/86400000);return {week:Math.min(12,Math.max(1,Math.floor(d/7)+1)),di:((d%7)+7)%7,days:d}}
+
+function cb(id,title,sub=""){return `<label class="checkrow"><input type="checkbox" ${state.checks[id]?'checked':''} onchange="state.checks['${id}']=this.checked;save()"><span><strong>${title}</strong>${sub?`<small>${sub}</small>`:''}</span></label>`}
+
+function renderToday(){
+ const i=info(),md=DATA.meals[i.di];
+ const map={0:0,2:1,4:2,6:3}, td=map[i.di];
+ let t=`<div class="card"><h3>Dagens trening</h3><div class="muted">Ingen planlagt hovudøkt i dag. Kvile, gåtur eller lett aktivitet er fint.</div></div>`;
+ if(td!==undefined){const s=DATA.weeks[i.week-1].sessions[td];t=`<div class="card"><h3>Dagens trening</h3>${cb(`w${i.week}t${td}`,s.name,s.day)}<ul>${s.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
+ document.getElementById('today').innerHTML=`
+ <div class="card"><div class="daytitle">${md[0]}</div><div class="muted">Veke ${i.week} av 12</div>
+ <div class="stats"><div class="stat"><b>≈1750</b><span>kcal/dag</span></div><div class="stat"><b>110–125 g</b><span>protein</span></div><div class="stat"><b>−0,25–0,5</b><span>kg/veke</span></div></div></div>
+ ${t}
+ <div class="card"><h3>Dagens mat</h3>${md[1].map((m,k)=>cb(`w${i.week}d${i.di}m${k}`,m[0],m[1])).join('')}</div>
+ <div class="card note"><strong>Justering</strong><div class="muted" style="margin-top:6px">Dersom vektsnittet ikkje går ned etter 2–3 veker, reduser porsjonane litt eller legg til 15–20 min roleg aktivitet 2 dagar i veka. Ikkje kutt aggressivt.</div></div>`;
+}
+
+function renderTraining(){
+ document.getElementById('training').innerHTML=DATA.weeks.map(w=>{let done=w.sessions.filter((s,j)=>state.checks[`w${w.week}t${j}`]).length;return `<div class="card"><div class="weekhead"><div><h2>Veke ${w.week}</h2><div class="muted">${w.phase}</div></div><span class="pill">${done}/4</span></div>${w.sessions.map((s,j)=>`<div>${cb(`w${w.week}t${j}`,s.name,s.day)}<ul>${s.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<textarea placeholder="Notat / vekter / fart / puls" oninput="state.notes['w${w.week}']=this.value;save()">${state.notes['w'+w.week]||''}</textarea></div>`}).join('');
+}
+
+function renderFood(){
+ const i=info();
+ document.getElementById('food').innerHTML=`<div class="card"><h2>Matplan</h2><div class="muted">Ca. 1700–1800 kcal per dag og høgt protein. Alle varer er vanlege daglegvarer du får på REMA 1000.</div></div>`+
+ DATA.meals.map((d,di)=>`<div class="card"><h2>${d[0]}</h2>${d[1].map((m,k)=>cb(`w${i.week}d${di}m${k}`,m[0],m[1])).join('')}</div>`).join('');
+}
+
+function renderWeight(){
+ let a=[...state.weights].sort((x,y)=>y.date.localeCompare(x.date));
+ document.getElementById('weight').innerHTML=`<div class="card"><h2>Vektlogg</h2><div class="muted">Veg deg helst 2–3 morgonar i veka, etter toalett og før frukost. Sjå på vekesnitt, ikkje enkeltdagar.</div><div class="twocol"><input id="wd" type="date" value="${new Date().toISOString().slice(0,10)}"><input id="wv" type="number" step="0.1" placeholder="kg"></div><button class="btn" onclick="addWeight()">Lagre vekt</button>${a.map(x=>`<div class="weightitem"><span>${x.date}</span><strong>${x.value} kg</strong></div>`).join('')}</div><div class="card"><h3>Startdato</h3><input type="date" value="${state.start}" onchange="state.start=this.value;save();renderAll()"></div>`;
+}
+function addWeight(){let d=document.getElementById('wd').value,v=parseFloat(document.getElementById('wv').value);if(!d||!v)return;state.weights=state.weights.filter(x=>x.date!==d);state.weights.push({date:d,value:v});save();renderWeight()}
+
+function renderShop(){document.getElementById('shop').innerHTML=`<div class="card"><h2>Handleliste – ca. 1 veke</h2>${DATA.shopping.map((x,i)=>`<label class="shoprow"><span><input type="checkbox" ${state.shop[i]?'checked':''} onchange="state.shop[${i}]=this.checked;save()"> ${x[0]}</span><strong>${x[1]}</strong></label>`).join('')}</div>`}
+
+function progress(){let ids=[];for(let w=1;w<=12;w++)for(let j=0;j<4;j++)ids.push(`w${w}t${j}`);let d=ids.filter(x=>state.checks[x]).length,p=Math.round(d/48*100);document.getElementById('bar').style.width=p+'%';document.getElementById('count').textContent=`${d} av 48 treningsøkter`;document.getElementById('pct').textContent=p+'%'}
+function renderAll(){renderToday();renderTraining();renderFood();renderWeight();renderShop();progress()}
+(async()=>{state=Object.assign(state,await loadState());renderAll();if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})})();
+</script>
+</body></html>
