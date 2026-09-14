@@ -1,5 +1,5 @@
-const CACHE='helene-anita-design-v6';
-const STATIC=['./manifest.json','./icon-180.png','./icon-512.png','./anita-theme.css'];
+const CACHE='helene-anita-design-v7';
+const STATIC=['./manifest.json','./icon-180.png','./icon-512.png','./anita-theme.css','./swipe-shop.js'];
 
 self.addEventListener('install',e=>{
   self.skipWaiting();
@@ -19,7 +19,10 @@ async function themedPage(request){
     if(!type.includes('text/html')) return response;
     let html=await response.text();
     if(!html.includes('anita-theme.css')){
-      html=html.replace('</head>','<link rel="stylesheet" href="./anita-theme.css?v=6"></head>');
+      html=html.replace('</head>','<link rel="stylesheet" href="./anita-theme.css?v=7"></head>');
+    }
+    if(!html.includes('swipe-shop.js')){
+      html=html.replace('</body>','<script src="./swipe-shop.js?v=7"></script></body>');
     }
     return new Response(html,{status:response.status,statusText:response.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
   }catch(err){
